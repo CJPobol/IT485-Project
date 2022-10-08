@@ -5,6 +5,14 @@
 
 #include "gf3d_model.h"
 
+typedef enum state
+{
+    ES_idle,
+    ES_move,
+    ES_dead,
+    ES_attack
+}EntityState;
+
 
 typedef struct Entity_S
 {
@@ -20,7 +28,7 @@ typedef struct Entity_S
     Vector3D    position;  
     Vector3D    velocity;
     Vector3D    acceleration;
-    
+    EntityState state;
     
     Vector3D    scale;
     Vector3D    rotation;
