@@ -70,6 +70,24 @@ void player_think(Entity *self)
 void player_update(Entity *self)
 {
     if (!self)return;
+
+    //creates "gravity"
+    self->position.z -= 0.01;
+
+    //creates "floor" to game world
+    if (self->position.z <= 0)
+        self->position.z = 0;
+
+    //creates "walls" to game world
+    if (self->position.x >= 100)
+        self->position.x = 100;
+    if (self->position.x <= -100)
+        self->position.x = -100;
+    if (self->position.y >= 100)
+        self->position.y = 100;
+    if (self->position.y <= -100)
+        self->position.y = -100;
+
     gf3d_camera_set_position(self->position);
     gf3d_camera_set_rotation(self->rotation);
 }
