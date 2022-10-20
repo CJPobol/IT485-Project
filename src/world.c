@@ -47,7 +47,7 @@ World *world_load(char *filename)
         gfc_matrix_identity(w->modelMat);
         gfc_matrix_scale(
             w->modelMat,
-            vector3d(10,10,10)
+            vector3d(10,10,1)
         );
         gfc_matrix_translate(
             w->modelMat,

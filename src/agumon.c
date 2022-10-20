@@ -16,7 +16,7 @@ Entity *agumon_new(Vector3D position)
         return NULL;
     }
     
-    ent->model = gf3d_model_load("cube");
+    ent->model = gf3d_model_load("dino");
     ent->think = agumon_think;
     ent->update = agumon_update;
     vector3d_copy(ent->position,position);
@@ -31,6 +31,7 @@ void agumon_update(Entity* self)
         return;
     }
     vector3d_add(self->position, self->position, self->velocity);
+    vector3d_add(self->scale, self->scale, self->scale);
 }
 
 void agumon_think(Entity *self)
