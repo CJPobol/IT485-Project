@@ -30,16 +30,23 @@ Entity *player_new(Vector3D position)
 
 void player_think(Entity *self)
 {
+    int radians = self->rotation.z;
     Vector3D forward;
     Vector3D right;
     Vector3D up;
+    Vector3D dash;
     const Uint8 * keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
+    int keyPressed = 0;
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
-    vector3d_set_magnitude(&forward, 0.1);
-    vector3d_set_magnitude(&right, 0.1);
+    vector3d_set_magnitude(&forward, 0.01);
+    vector3d_set_angle_by_radians(&forward, radians);
+    vector3d_set_magnitude(&right, 0.01);
+    vector3d_set_angle_by_radians(&right, radians - GFC_HALF_PI);
     vector3d_set_magnitude(&up,0.1);
+    vector3d_set_magnitude(&dash, 1);
+    vector3d_set_angle_by_radians(&dash, radians);
 
     if (keys[SDL_SCANCODE_W])
     {   
@@ -57,14 +64,32 @@ void player_think(Entity *self)
     {
         vector3d_add(self->position,self->position,-right);
     }
-    if (keys[SDL_SCANCODE_SPACE])self->position.z += 0.10;
-    if (keys[SDL_SCANCODE_Z])self->position.z -= 0.10;
+
+
+    if (keys[SDL_SCANCODE_SPACE])self->position.z = 100;
+    //else self->position.z = 0;
+    if (keys[SDL_SCANCODE_Z])self->position.z = -100;
+    //else self->position.z = 0;
     
     if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.0050;
     if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.0050;
-    if (keys[SDL_SCANCODE_RIGHT])self->rotation.z -= 0.0050;
-    if (keys[SDL_SCANCODE_LEFT])self->rotation.z += 0.0050;
 
+    if (keys[SDL_SCANCODE_RIGHT])
+    {
+        self->rotation.z += 0.0050;
+        //radians -= 0.0050;
+    }
+    if (keys[SDL_SCANCODE_LEFT])
+    {
+        self->rotation.z -= 0.0050;
+        //radians += 0.0050;
+    }
+
+    if (keys[SDL_SCANCODE_C] && keyPressed == 0)
+    {
+        vector3d_add(self->position, self->position, dash);
+        keyPressed = 1;
+    }
 }
 
 void player_update(Entity *self)
@@ -78,7 +103,9 @@ void player_update(Entity *self)
     if (self->position.z <= 0)
         self->position.z = 0;
 
+
     //creates "walls" to game world
+    
     if (self->position.x >= 100)
         self->position.x = 100;
     if (self->position.x <= -100)
@@ -87,7 +114,7 @@ void player_update(Entity *self)
         self->position.y = 100;
     if (self->position.y <= -100)
         self->position.y = -100;
-
+    
     gf3d_camera_set_position(self->position);
     gf3d_camera_set_rotation(self->rotation);
 }
