@@ -51,8 +51,8 @@ int main(int argc,char *argv[])
     w = world_load("config/testworld.json");
     
     
-    Entity* cube = agumon_new(vector3d(10 -50,30,0));
-    cube->scale = vector3d(20, 20, 20);
+    Entity* cube = agumon_new(vector3d(10,10,10));
+    //cube->scale = vector3d(20, 20, 20);
     
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
