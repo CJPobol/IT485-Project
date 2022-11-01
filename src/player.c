@@ -28,9 +28,12 @@ Entity *player_new(Vector3D position)
 }
 
 int crouching = 0;
+int slowFall = 0;
+int inAir = 0;
 
 void player_think(Entity *self)
 {
+    slowFall = 0;
     crouching = 0;
     int radians = self->rotation.z;
     Vector3D forward;
@@ -38,7 +41,7 @@ void player_think(Entity *self)
     Vector3D up;
     const Uint8 * keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
-    float magnitude = 0.1;
+    float magnitude = 0.01;
     
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
@@ -74,7 +77,14 @@ void player_think(Entity *self)
     }
 
     //jump
-    if (keys[SDL_SCANCODE_SPACE])self->position.z = 10;
+    if (keys[SDL_SCANCODE_SPACE])
+    {
+        if (inAir == 0)
+        {
+            self->position.z = 100;
+            inAir = 1;
+        }
+    }
     
 
     if (keys[SDL_SCANCODE_Z])
@@ -105,6 +115,11 @@ void player_think(Entity *self)
         self->position.y = forward.y*100;
         //vector3d_add(self->position, self->position, self->position);
     }
+
+    if (keys[SDL_SCANCODE_V])
+    {
+        slowFall = 1;
+    }
 }
 
 void player_update(Entity *self)
@@ -112,17 +127,27 @@ void player_update(Entity *self)
     if (!self)return;
 
     //creates "gravity"
-    self->position.z -= 0.08;
+    if (slowFall == 0)
+        self->position.z -= 0.08;
+    else
+        self->position.z -= 0.01;
 
     //creates "floor" to game world
     if (crouching == 1)
     {
         if (self->position.z <= -10)
+        {
             self->position.z = -10;
+            inAir = 0;
+        }
+            
     }
     else
         if (self->position.z <= 0)
+        {
             self->position.z = 0;
+            inAir = 0;
+        }
 
 
     //creates "walls" to game world
