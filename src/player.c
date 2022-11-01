@@ -36,20 +36,17 @@ void player_think(Entity *self)
     Vector3D forward;
     Vector3D right;
     Vector3D up;
-    Vector3D dash;
     const Uint8 * keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
-    int keyPressed = 0;
+    float magnitude = 0.1;
     
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
-    vector3d_set_magnitude(&forward, 0.001);
-    vector3d_set_angle_by_radians(&forward, -(radians - GFC_HALF_PI));
-    vector3d_set_magnitude(&right, 0.001);
+    vector3d_set_magnitude(&forward, magnitude);
+    vector3d_set_angle_by_radians(&forward, radians + GFC_HALF_PI);
+    vector3d_set_magnitude(&right, magnitude);
     vector3d_set_angle_by_radians(&right, radians);
-    vector3d_set_magnitude(&up,0.1);
-    vector3d_set_magnitude(&dash, 0.1);
-    vector3d_set_angle_by_radians(&dash, -(radians - GFC_HALF_PI));
+    vector3d_set_magnitude(&up,magnitude);
 
     if (keys[SDL_SCANCODE_W])
     {   
@@ -84,8 +81,8 @@ void player_think(Entity *self)
     {
         self->position.z = -10;
         crouching = 1;
-        vector3d_set_magnitude(&forward, 0.0001);
-        vector3d_set_magnitude(&right, 0.0001);
+        vector3d_set_magnitude(&forward, magnitude/10);
+        vector3d_set_magnitude(&right, magnitude/10);
     }
     
     if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.0050;
@@ -93,12 +90,12 @@ void player_think(Entity *self)
 
     if (keys[SDL_SCANCODE_RIGHT])
     {
-        self->rotation.z += 0.0050;
+        self->rotation.z -= 0.0050;
         //radians -= 0.0050;
     }
     if (keys[SDL_SCANCODE_LEFT])
     {
-        self->rotation.z -= 0.0050;
+        self->rotation.z += 0.0050;
         //radians += 0.0050;
     }
 
