@@ -128,9 +128,9 @@ void player_update(Entity *self)
 
     //creates "gravity"
     if (slowFall == 0)
-        self->position.z -= 0.08;
+        self->position.z -= 0.2;
     else
-        self->position.z -= 0.01;
+        self->position.z -= 0.02;
 
     //creates "floor" to game world
     if (crouching == 1)
