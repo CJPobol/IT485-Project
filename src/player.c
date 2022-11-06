@@ -24,7 +24,18 @@ Entity *player_new(Vector3D position)
     ent->update = player_update;
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
+    
+    for (int i = 0; i < 10; i++)
+        ent->itemOwned[i] = 0;
+
     return ent;
+}
+
+void wallClimb(Entity* self)
+{
+    if (self->itemOwned[3])
+        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
+            self->position.z += 0.4;
 }
 
 int crouching = 0;
@@ -41,7 +52,7 @@ void player_think(Entity *self)
     Vector3D up;
     const Uint8 * keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
-    float magnitude = 0.01;
+    float magnitude = 0.001;
     
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
@@ -54,26 +65,22 @@ void player_think(Entity *self)
     if (keys[SDL_SCANCODE_W])
     {   
         vector3d_add(self->position,self->position,forward);
-        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
-            self->position.z += 0.1;
+        wallClimb(self);
     }
     if (keys[SDL_SCANCODE_S])
     {
         vector3d_add(self->position,self->position,-forward);
-        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
-            self->position.z += 0.1;
+        wallClimb(self);
     }
     if (keys[SDL_SCANCODE_D])
     {
         vector3d_add(self->position,self->position,right);
-        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
-            self->position.z += 0.1;
+        wallClimb(self);
     }
     if (keys[SDL_SCANCODE_A])    
     {
         vector3d_add(self->position,self->position,-right);
-        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
-            self->position.z += 0.1;
+        wallClimb(self);
     }
 
     //jump
@@ -81,7 +88,10 @@ void player_think(Entity *self)
     {
         if (inAir == 0)
         {
-            self->position.z = 100;
+            if (self->itemOwned[2])
+                self->position.z = 100;
+            else
+                self->position.z = 50;
             inAir = 1;
         }
     }
@@ -89,36 +99,43 @@ void player_think(Entity *self)
 
     if (keys[SDL_SCANCODE_Z])
     {
-        self->position.z = -10;
-        crouching = 1;
-        vector3d_set_magnitude(&forward, magnitude/10);
-        vector3d_set_magnitude(&right, magnitude/10);
+        if (self->itemOwned[7]) 
+        {
+            self->position.z = -10;
+            crouching = 1;
+            vector3d_set_magnitude(&forward, magnitude / 10);
+            vector3d_set_magnitude(&right, magnitude / 10);
+        }
     }
     
-    if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.0050;
-    if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.0050;
+    if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.01;
+    if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.01;
 
     if (keys[SDL_SCANCODE_RIGHT])
     {
-        self->rotation.z -= 0.0050;
+        self->rotation.z -= 0.01;
         //radians -= 0.0050;
     }
     if (keys[SDL_SCANCODE_LEFT])
     {
-        self->rotation.z += 0.0050;
+        self->rotation.z += 0.01;
         //radians += 0.0050;
     }
 
     if (keys[SDL_SCANCODE_C])
     {
-        self->position.x = forward.x*100;
-        self->position.y = forward.y*100;
-        //vector3d_add(self->position, self->position, self->position);
+        if (self->itemOwned[9])
+        {
+            self->position.x = forward.x * 100;
+            self->position.y = forward.y * 100;
+        }
+        
     }
 
     if (keys[SDL_SCANCODE_V])
     {
-        slowFall = 1;
+        if (self->itemOwned[6])
+            slowFall = 1;
     }
 }
 
@@ -152,13 +169,13 @@ void player_update(Entity *self)
 
     //creates "walls" to game world
     
-    if (self->position.x >= 100)
+    if (self->position.x > 100)
         self->position.x = 100;
-    if (self->position.x <= -100)
+    if (self->position.x < -100)
         self->position.x = -100;
-    if (self->position.y >= 100)
+    if (self->position.y > 100)
         self->position.y = 100;
-    if (self->position.y <= -100)
+    if (self->position.y < -100)
         self->position.y = -100;
     
     gf3d_camera_set_position(self->position);
