@@ -78,8 +78,12 @@ int main(int argc,char *argv[])
     w = world_load("config/testworld.json");
     
     
-    agumon_new(vector3d(0,0,0));
-    //cube->scale = vector3d(20, 20, 20);
+    Entity* NPC1 = agumon_new(vector3d(10, 10, 10));
+    Entity* NPC2 = agumon_new(vector3d(30, 25, 10));
+    Entity* NPC3 = agumon_new(vector3d(20, 50, 10));
+    Entity* NPC4 = agumon_new(vector3d(75, 10, 10));
+    Entity* NPC5 = agumon_new(vector3d(50, 80, 10));
+    
     
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
@@ -120,7 +124,6 @@ int main(int argc,char *argv[])
                 gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
                 gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
                 gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
-
 
         gf3d_vgraphics_render_end();
 
