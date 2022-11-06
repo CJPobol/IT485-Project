@@ -93,7 +93,7 @@ int main(int argc,char *argv[])
 
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
-    player_new(vector3d(0,0,20));
+    Entity* player = player_new(vector3d(0,0,20));
     
     // main game loop
     slog("gf3d main loop begin");
@@ -120,16 +120,16 @@ int main(int argc,char *argv[])
                 gf3d_sprite_draw(mouse,vector2d(mousex,mousey),vector2d(2,2),(Uint32)mouseFrame);
 
                 gf3d_sprite_draw(inv, vector2d(0,0), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invnote, vector2d(0, 50), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invshoes, vector2d(0, 75), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invspiderweb, vector2d(0, 100), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invdollar, vector2d(0, 125), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invapple, vector2d(0, 150), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invumbrella, vector2d(0, 175), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
-                gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[0]) gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[1])gf3d_sprite_draw(invnote, vector2d(0, 50), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[2])gf3d_sprite_draw(invshoes, vector2d(0, 75), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[3])gf3d_sprite_draw(invspiderweb, vector2d(0, 100), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[4])gf3d_sprite_draw(invdollar, vector2d(0, 125), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[5])gf3d_sprite_draw(invapple, vector2d(0, 150), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[6])gf3d_sprite_draw(invumbrella, vector2d(0, 175), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[7])gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[8])gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[9])gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
 
         gf3d_vgraphics_render_end();
 
