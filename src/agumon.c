@@ -16,10 +16,12 @@ Entity *agumon_new(Vector3D position)
         return NULL;
     }
     
-    ent->model = gf3d_model_load("cube");
+    ent->model = gf3d_model_load("dino");
     ent->think = agumon_think;
     ent->update = agumon_update;
     vector3d_copy(ent->position,position);
+
+    ent->scale = vector3d(2,2,2);
     return ent;
 }
 
