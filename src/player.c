@@ -19,7 +19,7 @@ Entity *player_new(Vector3D position)
         return NULL;
     }
     
-    ent->model = gf3d_model_load("cube");
+    //ent->model = gf3d_model_load("cube");
     ent->think = player_think;
     ent->update = player_update;
     vector3d_copy(ent->position,position);
@@ -38,9 +38,80 @@ void wallClimb(Entity* self)
             self->position.z += 0.4;
 }
 
+int interacting = 0;
+int boxGiven = 0;
+
+
+void interact1(Entity* self)
+{
+    interacting = 1;
+    if (boxGiven == 1)
+    {
+        self->itemOwned[0] = 1;
+    }
+        
+    else
+        self->itemOwned[8] = 1;
+    
+}
+
+void interact2(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[4] = 1;
+}
+
+void interact3(Entity* self)
+{
+    interacting = 1;
+    if (self->itemOwned[4])
+    {
+        self->itemOwned[4] = 0;
+        self->itemOwned[5] = 1;
+    }
+    
+}
+
+void interact4(Entity* self, Uint8* keys)
+{
+    interacting = 1;
+    if (self->itemOwned[8])
+    {
+        //give mystery box? (Y/N)
+        //if (keys[SDL_SCANCODE_Y])
+        {
+            boxGiven = 1;
+            self->itemOwned[8] = 0;
+        }
+    }
+    if (boxGiven == 1)
+    {
+        //ask for key
+        if (self->itemOwned[0])
+        {
+            //give key? (Y/N)
+            //if (keys[SDL_SCANCODE_Y])
+            {
+                self->itemOwned[0] = 0;
+                //here take this cool teleporter I found
+                self->itemOwned[9] = 1;
+            }
+        }
+    }
+    
+}
+
+void interact5(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[7] = 1;
+    
+}
+
 int crouching = 0;
 int slowFall = 0;
 int inAir = 0;
+
 
 void player_think(Entity *self)
 {
@@ -50,7 +121,7 @@ void player_think(Entity *self)
     Vector3D forward;
     Vector3D right;
     Vector3D up;
-    const Uint8 * keys;
+    const Uint8* keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
     float magnitude = 0.001;
     
@@ -63,24 +134,36 @@ void player_think(Entity *self)
     vector3d_set_magnitude(&up,magnitude);
 
     if (keys[SDL_SCANCODE_W])
-    {   
-        vector3d_add(self->position,self->position,forward);
-        wallClimb(self);
+    {  
+        if (interacting == 0)
+        {
+            vector3d_add(self->position, self->position, forward);
+            wallClimb(self);
+        }
     }
     if (keys[SDL_SCANCODE_S])
     {
-        vector3d_add(self->position,self->position,-forward);
-        wallClimb(self);
+        if (interacting == 0)
+        {
+            vector3d_add(self->position,self->position,-forward);
+            wallClimb(self);
+        }
     }
     if (keys[SDL_SCANCODE_D])
     {
-        vector3d_add(self->position,self->position,right);
-        wallClimb(self);
+        if (interacting == 0)
+        {
+            vector3d_add(self->position, self->position, right);
+            wallClimb(self);
+        }
     }
     if (keys[SDL_SCANCODE_A])    
     {
-        vector3d_add(self->position,self->position,-right);
-        wallClimb(self);
+        if (interacting == 0)
+        {
+            vector3d_add(self->position,self->position,-right);
+            wallClimb(self);
+        }
     }
 
     //jump
@@ -137,6 +220,29 @@ void player_think(Entity *self)
         if (self->itemOwned[6])
             slowFall = 1;
     }
+
+    if (keys[SDL_SCANCODE_E])
+    {
+        if (interacting == 0)
+        {
+            
+            if (self->nearNPC == 1)
+                interact1(self);
+            else if (self->nearNPC == 2)
+                interact2(self);
+            else if (self->nearNPC == 3)
+                interact3(self);
+            else if (self->nearNPC == 4)
+                interact4(self, keys);
+            else if (self->nearNPC == 5)
+                interact5(self);            
+        }        
+    }
+
+    if (keys[SDL_SCANCODE_R])
+    {
+        interacting = 0;
+    }
 }
 
 void player_update(Entity *self)
@@ -177,6 +283,11 @@ void player_update(Entity *self)
         self->position.y = 100;
     if (self->position.y < -100)
         self->position.y = -100;
+
+    
+
+
+
     
     gf3d_camera_set_position(self->position);
     gf3d_camera_set_rotation(self->rotation);
