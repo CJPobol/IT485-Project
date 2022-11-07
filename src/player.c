@@ -123,14 +123,14 @@ void player_think(Entity *self)
     Vector3D up;
     const Uint8* keys;
     keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
-    float magnitude = 0.001;
+    float magnitude = 0.0000000001;
     
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
     vector3d_set_magnitude(&forward, magnitude);
-    vector3d_set_angle_by_radians(&forward, radians + GFC_HALF_PI);
+    vector3d_set_angle_by_radians(&forward, radians);
     vector3d_set_magnitude(&right, magnitude);
-    vector3d_set_angle_by_radians(&right, radians);
+    vector3d_set_angle_by_radians(&right, radians + GFC_HALF_PI);
     vector3d_set_magnitude(&up,magnitude);
 
     if (keys[SDL_SCANCODE_W])
@@ -191,17 +191,17 @@ void player_think(Entity *self)
         }
     }
     
-    if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.01;
-    if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.01;
+    if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.005;
+    if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.005;
 
     if (keys[SDL_SCANCODE_RIGHT])
     {
-        self->rotation.z -= 0.01;
+        self->rotation.z -= 0.005;
         //radians -= 0.0050;
     }
     if (keys[SDL_SCANCODE_LEFT])
     {
-        self->rotation.z += 0.01;
+        self->rotation.z += 0.005;
         //radians += 0.0050;
     }
 
