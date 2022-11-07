@@ -90,7 +90,10 @@ int main(int argc,char *argv[])
     NPC4->rotation.z = M_PI / 2;
     NPC5->rotation.z = M_PI * 1.5;
 
-    Entity* shoes = item_new(vector3d(50, -75, 0));
+    Entity* shoes = item_new(vector3d(50, -75, -10));
+    Entity* note = item_new(vector3d(-50, 75, -10));
+    Entity* umbrella = item_new(vector3d(-50, -75, -10));
+    Entity* spiderwebs = item_new(vector3d(50, 75, -10));
 
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
@@ -146,6 +149,15 @@ int main(int argc,char *argv[])
             player->nearNPC = 5;
         else
             player->nearNPC = 0;
+
+        if (vector3d_distance_between_less_than(player->position, shoes->position, interactDist))
+            player->itemOwned[2] = 1;
+        if (vector3d_distance_between_less_than(player->position, note->position, interactDist))
+            player->itemOwned[1] = 1;
+        if (vector3d_distance_between_less_than(player->position, umbrella->position, interactDist))
+            player->itemOwned[6] = 1;
+        if (vector3d_distance_between_less_than(player->position, spiderwebs->position, interactDist))
+            player->itemOwned[3] = 1;
         
 
 
