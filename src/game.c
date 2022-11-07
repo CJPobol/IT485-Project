@@ -77,7 +77,7 @@ int main(int argc,char *argv[])
     
     w = world_load("config/testworld.json");
     
-    float interactDist = 15;
+    float interactDist = 50;
     
     Entity* NPC1 = agumon_new(vector3d(0, -85, 0));
     Entity* NPC2 = agumon_new(vector3d(-20, 90, 0));
@@ -90,6 +90,7 @@ int main(int argc,char *argv[])
     NPC4->rotation.z = M_PI / 2;
     NPC5->rotation.z = M_PI * 1.5;
 
+    Entity* shoes = item_new(vector3d(50, -75, 0));
 
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
