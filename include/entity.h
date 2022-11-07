@@ -37,6 +37,7 @@ typedef struct Entity_S
     // WHATEVER ELSE WE MIGHT NEED FOR ENTITIES
 
     int itemOwned[10];
+    int nearNPC;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     

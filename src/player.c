@@ -19,7 +19,7 @@ Entity *player_new(Vector3D position)
         return NULL;
     }
     
-    ent->model = gf3d_model_load("cube");
+    //ent->model = gf3d_model_load("cube");
     ent->think = player_think;
     ent->update = player_update;
     vector3d_copy(ent->position,position);
@@ -38,9 +38,42 @@ void wallClimb(Entity* self)
             self->position.z += 0.4;
 }
 
+int interacting = 0;
+
+void interact1(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[0] = 1;
+}
+
+void interact2(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[1] = 1;
+}
+
+void interact3(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[2] = 1;
+}
+
+void interact4(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[3] = 1;
+}
+
+void interact5(Entity* self)
+{
+    interacting = 1;
+    self->itemOwned[4] = 1;
+}
+
 int crouching = 0;
 int slowFall = 0;
 int inAir = 0;
+
 
 void player_think(Entity *self)
 {
@@ -137,6 +170,24 @@ void player_think(Entity *self)
         if (self->itemOwned[6])
             slowFall = 1;
     }
+
+    if (keys[SDL_SCANCODE_E])
+    {
+        if (interacting == 0)
+        {
+            
+            if (self->nearNPC == 1)
+                interact1(self);
+            else if (self->nearNPC == 2)
+                interact2(self);
+            else if (self->nearNPC == 3)
+                interact3(self);
+            else if (self->nearNPC == 4)
+                interact4(self);
+            else if (self->nearNPC == 5)
+                interact5(self);            
+        }        
+    }
 }
 
 void player_update(Entity *self)
@@ -177,6 +228,11 @@ void player_update(Entity *self)
         self->position.y = 100;
     if (self->position.y < -100)
         self->position.y = -100;
+
+    
+
+
+
     
     gf3d_camera_set_position(self->position);
     gf3d_camera_set_rotation(self->rotation);

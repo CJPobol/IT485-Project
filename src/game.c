@@ -77,7 +77,7 @@ int main(int argc,char *argv[])
     
     w = world_load("config/testworld.json");
     
-    
+    float interactDist = 15;
     
     Entity* NPC1 = agumon_new(vector3d(0, -85, 0));
     Entity* NPC2 = agumon_new(vector3d(-20, 90, 0));
@@ -120,7 +120,7 @@ int main(int argc,char *argv[])
                 gf3d_sprite_draw(mouse,vector2d(mousex,mousey),vector2d(2,2),(Uint32)mouseFrame);
 
                 gf3d_sprite_draw(inv, vector2d(0,0), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[0]) gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->itemOwned[0])gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[1])gf3d_sprite_draw(invnote, vector2d(0, 50), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[2])gf3d_sprite_draw(invshoes, vector2d(0, 75), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[3])gf3d_sprite_draw(invspiderweb, vector2d(0, 100), vector2d(2, 2), (Uint32)mouseFrame);
@@ -132,6 +132,21 @@ int main(int argc,char *argv[])
                 if (player->itemOwned[9])gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
 
         gf3d_vgraphics_render_end();
+
+        if (vector3d_distance_between_less_than(player->position, NPC1->position, interactDist))
+            player->nearNPC = 1;
+        else if (vector3d_distance_between_less_than(player->position, NPC2->position, interactDist))
+            player->nearNPC = 2;
+        else if (vector3d_distance_between_less_than(player->position, NPC3->position, interactDist))
+            player->nearNPC = 3;
+        else if (vector3d_distance_between_less_than(player->position, NPC4->position, interactDist))
+            player->nearNPC = 4;
+        else if (vector3d_distance_between_less_than(player->position, NPC5->position, interactDist))
+            player->nearNPC = 5;
+        else
+            player->nearNPC = 0;
+        
+
 
         if (gfc_input_command_down("exit"))done = 1; // exit condition
     }    
