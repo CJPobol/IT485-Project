@@ -38,14 +38,14 @@ void wallClimb(Entity* self)
             self->position.z += 0.4;
 }
 
-int interacting = 0;
-int boxGiven = 0;
+interacting = 0;
+boxGiven = 0;
 
 
 void interact1(Entity* self)
 {
-    interacting = 1;
-    if (boxGiven == 1)
+    self->interacting = 1;
+    if (self->boxGiven == 1)
     {
         self->itemOwned[0] = 1;
     }
@@ -57,13 +57,13 @@ void interact1(Entity* self)
 
 void interact2(Entity* self)
 {
-    interacting = 1;
+    self->interacting = 1;
     self->itemOwned[4] = 1;
 }
 
 void interact3(Entity* self)
 {
-    interacting = 1;
+    self->interacting = 1;
     if (self->itemOwned[4])
     {
         self->itemOwned[4] = 0;
@@ -74,17 +74,17 @@ void interact3(Entity* self)
 
 void interact4(Entity* self, Uint8* keys)
 {
-    interacting = 1;
+    self->interacting = 1;
     if (self->itemOwned[8])
     {
         //give mystery box? (Y/N)
         //if (keys[SDL_SCANCODE_Y])
         {
-            boxGiven = 1;
+            self->boxGiven = 1;
             self->itemOwned[8] = 0;
         }
     }
-    if (boxGiven == 1)
+    if (self->boxGiven == 1)
     {
         //ask for key
         if (self->itemOwned[0])
@@ -93,6 +93,7 @@ void interact4(Entity* self, Uint8* keys)
             //if (keys[SDL_SCANCODE_Y])
             {
                 self->itemOwned[0] = 0;
+                self->keyGiven = 1;
                 //here take this cool teleporter I found
                 self->itemOwned[9] = 1;
             }
@@ -103,7 +104,7 @@ void interact4(Entity* self, Uint8* keys)
 
 void interact5(Entity* self)
 {
-    interacting = 1;
+    self->interacting = 1;
     self->itemOwned[7] = 1;
     
 }
@@ -115,6 +116,7 @@ int inAir = 0;
 
 void player_think(Entity *self)
 {
+    self->readingNote = 0;
     slowFall = 0;
     crouching = 0;
     int radians = self->rotation.z;
@@ -135,7 +137,7 @@ void player_think(Entity *self)
 
     if (keys[SDL_SCANCODE_W])
     {  
-        if (interacting == 0)
+        if (self->interacting == 0)
         {
             vector3d_add(self->position, self->position, forward);
             wallClimb(self);
@@ -143,7 +145,7 @@ void player_think(Entity *self)
     }
     if (keys[SDL_SCANCODE_S])
     {
-        if (interacting == 0)
+        if (self->interacting == 0)
         {
             vector3d_add(self->position,self->position,-forward);
             wallClimb(self);
@@ -151,7 +153,7 @@ void player_think(Entity *self)
     }
     if (keys[SDL_SCANCODE_D])
     {
-        if (interacting == 0)
+        if (self->interacting == 0)
         {
             vector3d_add(self->position, self->position, right);
             wallClimb(self);
@@ -159,7 +161,7 @@ void player_think(Entity *self)
     }
     if (keys[SDL_SCANCODE_A])    
     {
-        if (interacting == 0)
+        if (self->interacting == 0)
         {
             vector3d_add(self->position,self->position,-right);
             wallClimb(self);
@@ -223,7 +225,7 @@ void player_think(Entity *self)
 
     if (keys[SDL_SCANCODE_E])
     {
-        if (interacting == 0)
+        if (self->interacting == 0)
         {
             
             if (self->nearNPC == 1)
@@ -241,7 +243,12 @@ void player_think(Entity *self)
 
     if (keys[SDL_SCANCODE_R])
     {
-        interacting = 0;
+        self->interacting = 0;
+    }
+
+    if (keys[SDL_SCANCODE_Q])
+    {
+        self->readingNote = 1;
     }
 }
 
