@@ -128,9 +128,9 @@ void player_think(Entity *self)
 
     vector3d_angle_vectors(self->rotation, &forward, &right, &up);
     vector3d_set_magnitude(&forward, magnitude);
-    vector3d_set_angle_by_radians(&forward, radians);
+    vector3d_set_angle_by_radians(&forward, radians + GFC_HALF_PI);
     vector3d_set_magnitude(&right, magnitude);
-    vector3d_set_angle_by_radians(&right, radians + GFC_HALF_PI);
+    vector3d_set_angle_by_radians(&right, radians);
     vector3d_set_magnitude(&up,magnitude);
 
     if (keys[SDL_SCANCODE_W])
