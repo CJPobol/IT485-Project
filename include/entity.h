@@ -41,6 +41,7 @@ typedef struct Entity_S
     int interacting;
     int boxGiven;
     int keyGiven;
+    int readingNote;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     

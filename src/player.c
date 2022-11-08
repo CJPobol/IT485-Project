@@ -116,6 +116,7 @@ int inAir = 0;
 
 void player_think(Entity *self)
 {
+    self->readingNote = 0;
     slowFall = 0;
     crouching = 0;
     int radians = self->rotation.z;
@@ -243,6 +244,11 @@ void player_think(Entity *self)
     if (keys[SDL_SCANCODE_R])
     {
         self->interacting = 0;
+    }
+
+    if (keys[SDL_SCANCODE_Q])
+    {
+        self->readingNote = 1;
     }
 }
 

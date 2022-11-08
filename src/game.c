@@ -74,7 +74,8 @@ int main(int argc,char *argv[])
     invbox = gf3d_sprite_load("images/invbox.png", 300, 50, 1);
     invteleporter = gf3d_sprite_load("images/invteleporter.png", 300, 50, 1);
 
-    
+    Sprite* noteText = gf3d_sprite_load("images/note.png", 2500, 500, 1);
+
     Sprite* dialogue[7];
         dialogue[0] = gf3d_sprite_load("images/dialogue/0.png", 2500, 500, 1);
         dialogue[1] = gf3d_sprite_load("images/dialogue/1.png", 2500, 500, 1);
@@ -158,6 +159,9 @@ int main(int argc,char *argv[])
                     gf3d_sprite_draw(dialogue[5], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->interacting && player->nearNPC == 5 && player->itemOwned[7])
                     gf3d_sprite_draw(dialogue[6], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                
+                if (player->readingNote && !player->interacting && player->itemOwned[1])
+                    gf3d_sprite_draw(noteText, vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
 
         gf3d_vgraphics_render_end();
 
