@@ -75,6 +75,15 @@ int main(int argc,char *argv[])
     invteleporter = gf3d_sprite_load("images/invteleporter.png", 300, 50, 1);
 
     
+    Sprite* dialogue[7];
+        dialogue[0] = gf3d_sprite_load("images/dialogue/0.png", 2500, 500, 1);
+        dialogue[1] = gf3d_sprite_load("images/dialogue/1.png", 2500, 500, 1);
+        dialogue[2] = gf3d_sprite_load("images/dialogue/2.png", 2500, 500, 1);
+        dialogue[3] = gf3d_sprite_load("images/dialogue/3.png", 2500, 500, 1);
+        dialogue[4] = gf3d_sprite_load("images/dialogue/4.png", 2500, 500, 1);
+        dialogue[5] = gf3d_sprite_load("images/dialogue/5.png", 2500, 500, 1);
+        dialogue[6] = gf3d_sprite_load("images/dialogue/6.png", 2500, 500, 1);
+
     w = world_load("config/testworld.json");
     
     float interactDist = 50;
@@ -134,6 +143,21 @@ int main(int argc,char *argv[])
                 if (player->itemOwned[7])gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[8])gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[9])gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
+
+                if (player->interacting == 1 && player->boxGiven && player->nearNPC == 4) 
+                    gf3d_sprite_draw(dialogue[0], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting == 1 && player->keyGiven && player->nearNPC == 4)
+                    gf3d_sprite_draw(dialogue[1], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting == 1 && player->nearNPC == 2 && !player->itemOwned[5])
+                    gf3d_sprite_draw(dialogue[2], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting == 1 && player->nearNPC == 3 && player->itemOwned[5])
+                    gf3d_sprite_draw(dialogue[3], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[8])
+                    gf3d_sprite_draw(dialogue[4], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[0])
+                    gf3d_sprite_draw(dialogue[5], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->interacting && player->nearNPC == 5 && player->itemOwned[7])
+                    gf3d_sprite_draw(dialogue[6], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
 
         gf3d_vgraphics_render_end();
 

@@ -38,6 +38,9 @@ typedef struct Entity_S
 
     int itemOwned[10];
     int nearNPC;
+    int interacting;
+    int boxGiven;
+    int keyGiven;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     
