@@ -86,19 +86,39 @@ int main(int argc,char *argv[])
         dialogue[6] = gf3d_sprite_load("images/dialogue/6.png", 2500, 500, 1);
 
     w = world_load("config/testworld.json");
+
+    Entity* wall1 = item_new(vector3d(0, 1000, 0));
+    wall1->scale = vector3d(1000, 1, 1000);
+    Entity* wall2 = item_new(vector3d(0, -1000, 0));
+    wall2->rotation.z = GFC_PI;
+    wall2->scale = vector3d(1000, 1, 1000);
+    Entity* wall3 = item_new(vector3d(1000, 0, 0));
+    wall3->rotation.z = -GFC_HALF_PI;
+    wall3->scale = vector3d(1, 1000, 1000);
+    Entity* wall4 = item_new(vector3d(-1000, 0, 0));
+    wall4->rotation.z = GFC_HALF_PI;
+    wall4->scale = vector3d(1, 1000, 1000);
+    Entity* floor = item_new(vector3d(0, 0, 0));
+    floor->scale = vector3d(1000, 1000, 1);
+
     
     float interactDist = 50;
     
-    Entity* NPC1 = agumon_new(vector3d(0, -85, 0));
-    Entity* NPC2 = agumon_new(vector3d(-20, 90, 0));
-    Entity* NPC3 = agumon_new(vector3d(85, 70, 0));
-    Entity* NPC4 = agumon_new(vector3d(-95, -20, 0));
-    Entity* NPC5 = agumon_new(vector3d(85, -60, 0));
+    Entity* NPC1 = agumon_new(vector3d(0, -850, 60));
+    Entity* NPC2 = agumon_new(vector3d(-200, 900, 60));
+    Entity* NPC3 = agumon_new(vector3d(850, 700, 60));
+    Entity* NPC4 = agumon_new(vector3d(-950, -200, 60));
+    Entity* NPC5 = agumon_new(vector3d(850, -600, 60));
 
     NPC1->rotation.z = M_PI;
+    NPC1->scale = vector3d(10, 10, 10);
+    NPC2->scale = vector3d(10, 10, 10);
     NPC3->rotation.z = M_PI * 1.5;
+    NPC3->scale = vector3d(10, 10, 10);
     NPC4->rotation.z = M_PI / 2;
+    NPC4->scale = vector3d(10, 10, 10);
     NPC5->rotation.z = M_PI * 1.5;
+    NPC5->scale = vector3d(10, 10, 10);
 
     Entity* shoes = item_new(vector3d(50, -75, -10));
     Entity* note = item_new(vector3d(-50, 75, -10));
@@ -107,7 +127,7 @@ int main(int argc,char *argv[])
 
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
-    Entity* player = player_new(vector3d(0,0,20));
+    Entity* player = player_new(vector3d(0,0,60));
     
     // main game loop
     slog("gf3d main loop begin");

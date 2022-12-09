@@ -34,7 +34,7 @@ Entity *player_new(Vector3D position)
 void wallClimb(Entity* self)
 {
     if (self->itemOwned[3])
-        if (self->position.x >= 100 || self->position.x <= -100 || self->position.y >= 100 || self->position.y <= -100)
+        if (self->position.x >= 1000 || self->position.x <= -1000 || self->position.y >= 1000 || self->position.y <= -1000)
             self->position.z += 0.4;
 }
 
@@ -265,31 +265,31 @@ void player_update(Entity *self)
     //creates "floor" to game world
     if (crouching == 1)
     {
-        if (self->position.z <= -10)
+        if (self->position.z <= 20)
         {
-            self->position.z = -10;
+            self->position.z = 20;
             inAir = 0;
         }
             
     }
     else
-        if (self->position.z <= 0)
+        if (self->position.z <= 60)
         {
-            self->position.z = 0;
+            self->position.z = 60;
             inAir = 0;
         }
 
 
     //creates "walls" to game world
     
-    if (self->position.x > 100)
-        self->position.x = 100;
-    if (self->position.x < -100)
-        self->position.x = -100;
-    if (self->position.y > 100)
-        self->position.y = 100;
-    if (self->position.y < -100)
-        self->position.y = -100;
+    if (self->position.x > 999)
+        self->position.x = 999;
+    if (self->position.x < -999)
+        self->position.x = -999;
+    if (self->position.y > 999)
+        self->position.y = 999;
+    if (self->position.y < -999)
+        self->position.y = -999;
 
     
 
