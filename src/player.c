@@ -4,6 +4,8 @@
 #include "gf3d_camera.h"
 #include "player.h"
 
+#include "gfc_audio.h"
+
 
 void player_think(Entity *self);
 void player_update(Entity *self);
@@ -25,6 +27,7 @@ Entity *player_new(Vector3D position)
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
     
+    
     for (int i = 0; i < 10; i++)
         ent->itemOwned[i] = 0;
 
@@ -45,29 +48,39 @@ boxGiven = 0;
 void interact1(Entity* self)
 {
     self->interacting = 1;
+    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->boxGiven == 1)
     {
         self->itemOwned[0] = 1;
+        gfc_sound_play(item_pickup, 0, 1, -1, -1);
     }
         
     else
+    {
         self->itemOwned[8] = 1;
+        gfc_sound_play(item_pickup, 0, 1, -1, -1);
+    }
+        
     
 }
 
 void interact2(Entity* self)
 {
     self->interacting = 1;
+    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     self->itemOwned[4] = 1;
+    gfc_sound_play(item_pickup, 0, 1, -1, -1);
 }
 
 void interact3(Entity* self)
 {
     self->interacting = 1;
+    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->itemOwned[4])
     {
         self->itemOwned[4] = 0;
         self->itemOwned[5] = 1;
+        gfc_sound_play(item_pickup, 0, 1, -1, -1);
     }
     
 }
@@ -75,6 +88,7 @@ void interact3(Entity* self)
 void interact4(Entity* self, Uint8* keys)
 {
     self->interacting = 1;
+    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->itemOwned[8])
     {
         //give mystery box? (Y/N)
@@ -96,6 +110,7 @@ void interact4(Entity* self, Uint8* keys)
                 self->keyGiven = 1;
                 //here take this cool teleporter I found
                 self->itemOwned[9] = 1;
+                gfc_sound_play(item_pickup, 0, 1, -1, -1);
             }
         }
     }
@@ -105,7 +120,9 @@ void interact4(Entity* self, Uint8* keys)
 void interact5(Entity* self)
 {
     self->interacting = 1;
+    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     self->itemOwned[7] = 1;
+    gfc_sound_play(item_pickup, 0, 1, -1, -1);
     
 }
 

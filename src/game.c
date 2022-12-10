@@ -4,6 +4,7 @@
 #include "gfc_input.h"
 #include "gfc_vector.h"
 #include "gfc_matrix.h"
+#include "gfc_audio.h"
 
 #include "gf3d_vgraphics.h"
 #include "gf3d_pipeline.h"
@@ -56,8 +57,9 @@ int main(int argc,char *argv[])
     gfc_input_init("config/input.cfg");
     slog("gf3d begin");
     gf3d_vgraphics_init("config/setup.cfg");
+    gfc_audio_init(10, 2, 1, 1, 0, 0);
     slog_sync();
-    
+
     entity_system_init(1024);
     
     mouse = gf3d_sprite_load("images/pointer.png",32,32, 16);
