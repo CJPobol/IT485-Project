@@ -53,12 +53,14 @@ void interact1(Entity* self)
     {
         self->itemOwned[0] = 1;
         gfc_sound_play(item_pickup, 0, 1, -1, -1);
+        gfc_sound_free(item_pickup);
     }
         
     else
     {
         self->itemOwned[8] = 1;
         gfc_sound_play(item_pickup, 0, 1, -1, -1);
+        gfc_sound_free(item_pickup);
     }
         
     
@@ -70,6 +72,7 @@ void interact2(Entity* self)
     Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     self->itemOwned[4] = 1;
     gfc_sound_play(item_pickup, 0, 1, -1, -1);
+    gfc_sound_free(item_pickup);
 }
 
 void interact3(Entity* self)
@@ -81,6 +84,7 @@ void interact3(Entity* self)
         self->itemOwned[4] = 0;
         self->itemOwned[5] = 1;
         gfc_sound_play(item_pickup, 0, 1, -1, -1);
+        gfc_sound_free(item_pickup);
     }
     
 }
@@ -111,6 +115,7 @@ void interact4(Entity* self, Uint8* keys)
                 //here take this cool teleporter I found
                 self->itemOwned[9] = 1;
                 gfc_sound_play(item_pickup, 0, 1, -1, -1);
+                gfc_sound_free(item_pickup);
             }
         }
     }
@@ -123,7 +128,7 @@ void interact5(Entity* self)
     Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     self->itemOwned[7] = 1;
     gfc_sound_play(item_pickup, 0, 1, -1, -1);
-    
+    gfc_sound_free(item_pickup);
 }
 
 int crouching = 0;
