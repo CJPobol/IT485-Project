@@ -57,7 +57,7 @@ int main(int argc,char *argv[])
     gfc_input_init("config/input.cfg");
     slog("gf3d begin");
     gf3d_vgraphics_init("config/setup.cfg");
-    gfc_audio_init(10, 2, 1, 1, 0, 0);
+    gfc_audio_init(10, 2, 1, 1, 1, 1);
     slog_sync();
 
     entity_system_init(1024);
@@ -157,7 +157,7 @@ int main(int argc,char *argv[])
             //2D draws
                 gf3d_sprite_draw(mouse,vector2d(mousex,mousey),vector2d(2,2),(Uint32)mouseFrame);
 
-                gf3d_sprite_draw(menu, vector2d(0,0), vector2d(1, 1), (Uint32)mouseFrame);
+                gf3d_sprite_draw(menu, vector2d(0,700), vector2d(2, 2), (Uint32)mouseFrame);
 
                 gf3d_sprite_draw(inv, vector2d(0,0), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[0])gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
@@ -219,6 +219,7 @@ int main(int argc,char *argv[])
     }    
     
     world_delete(w);
+    gfc_sound_clear_all();
     
     vkDeviceWaitIdle(gf3d_vgraphics_get_default_logical_device());    
     //cleanup
