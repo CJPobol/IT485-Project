@@ -219,7 +219,6 @@ int main(int argc,char *argv[])
     }    
     
     world_delete(w);
-    gfc_sound_clear_all();
     
     vkDeviceWaitIdle(gf3d_vgraphics_get_default_logical_device());    
     //cleanup
