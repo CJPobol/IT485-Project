@@ -106,7 +106,7 @@ int main(int argc,char *argv[])
     floor->scale = vector3d(1000, 1000, 1);
 
     
-    float interactDist = 50;
+    float interactDist = 250;
     
     Entity* NPC1 = agumon_new(vector3d(0, -850, 60));
     Entity* NPC2 = agumon_new(vector3d(-200, 900, 60));
