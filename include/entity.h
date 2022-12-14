@@ -43,6 +43,7 @@ typedef struct Entity_S
     int keyGiven;
     int readingNote;
 
+    int onMenu;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     

@@ -76,7 +76,7 @@ int main(int argc,char *argv[])
     invbox = gf3d_sprite_load("images/invbox.png", 300, 50, 1);
     invteleporter = gf3d_sprite_load("images/invteleporter.png", 300, 50, 1);
 
-    Sprite* menu = gf3d_sprite_load("images/mainmenu_screen.png", 1200, 700, 1);
+    Sprite* menu = gf3d_sprite_load("images/mainmenu_screen.png", 2400, 1400, 1);
 
     Sprite* noteText = gf3d_sprite_load("images/note.png", 2500, 500, 1);
 
@@ -157,37 +157,40 @@ int main(int argc,char *argv[])
             //2D draws
                 gf3d_sprite_draw(mouse,vector2d(mousex,mousey),vector2d(2,2),(Uint32)mouseFrame);
 
-                gf3d_sprite_draw(menu, vector2d(0,700), vector2d(2, 2), (Uint32)mouseFrame);
+                if (player->onMenu == 0) {
+                    
+                    gf3d_sprite_draw(inv, vector2d(0, 0), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[0])gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[1])gf3d_sprite_draw(invnote, vector2d(0, 50), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[2])gf3d_sprite_draw(invshoes, vector2d(0, 75), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[3])gf3d_sprite_draw(invspiderweb, vector2d(0, 100), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[4])gf3d_sprite_draw(invdollar, vector2d(0, 125), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[5])gf3d_sprite_draw(invapple, vector2d(0, 150), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[6])gf3d_sprite_draw(invumbrella, vector2d(0, 175), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[7])gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[8])gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->itemOwned[9])gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
 
-                gf3d_sprite_draw(inv, vector2d(0,0), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[0])gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[1])gf3d_sprite_draw(invnote, vector2d(0, 50), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[2])gf3d_sprite_draw(invshoes, vector2d(0, 75), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[3])gf3d_sprite_draw(invspiderweb, vector2d(0, 100), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[4])gf3d_sprite_draw(invdollar, vector2d(0, 125), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[5])gf3d_sprite_draw(invapple, vector2d(0, 150), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[6])gf3d_sprite_draw(invumbrella, vector2d(0, 175), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[7])gf3d_sprite_draw(invbooklet, vector2d(0, 200), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[8])gf3d_sprite_draw(invbox, vector2d(0, 225), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->itemOwned[9])gf3d_sprite_draw(invteleporter, vector2d(0, 250), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->boxGiven && player->nearNPC == 4)
+                        gf3d_sprite_draw(dialogue[0], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->keyGiven && player->nearNPC == 4)
+                        gf3d_sprite_draw(dialogue[1], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->nearNPC == 2 && !player->itemOwned[5])
+                        gf3d_sprite_draw(dialogue[2], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->nearNPC == 3 && player->itemOwned[5])
+                        gf3d_sprite_draw(dialogue[3], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[8])
+                        gf3d_sprite_draw(dialogue[4], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[0])
+                        gf3d_sprite_draw(dialogue[5], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->interacting && player->nearNPC == 5 && player->itemOwned[7])
+                        gf3d_sprite_draw(dialogue[6], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
 
-                if (player->interacting == 1 && player->boxGiven && player->nearNPC == 4) 
-                    gf3d_sprite_draw(dialogue[0], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting == 1 && player->keyGiven && player->nearNPC == 4)
-                    gf3d_sprite_draw(dialogue[1], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting == 1 && player->nearNPC == 2 && !player->itemOwned[5])
-                    gf3d_sprite_draw(dialogue[2], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting == 1 && player->nearNPC == 3 && player->itemOwned[5])
-                    gf3d_sprite_draw(dialogue[3], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[8])
-                    gf3d_sprite_draw(dialogue[4], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[0])
-                    gf3d_sprite_draw(dialogue[5], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                if (player->interacting && player->nearNPC == 5 && player->itemOwned[7])
-                    gf3d_sprite_draw(dialogue[6], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                
-                if (player->readingNote && !player->interacting && player->itemOwned[1])
-                    gf3d_sprite_draw(noteText, vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    if (player->readingNote && !player->interacting && player->itemOwned[1])
+                        gf3d_sprite_draw(noteText, vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                }
+
+                if (player->onMenu == 1) gf3d_sprite_draw(menu, vector2d(0, 0), vector2d(4, 4), (Uint32)mouseFrame);
 
         gf3d_vgraphics_render_end();
 
