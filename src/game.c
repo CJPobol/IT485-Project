@@ -57,7 +57,7 @@ int main(int argc,char *argv[])
     gfc_input_init("config/input.cfg");
     slog("gf3d begin");
     gf3d_vgraphics_init("config/setup.cfg");
-    gfc_audio_init(10, 2, 1, 1, 0, 0);
+    gfc_audio_init(10, 2, 1, 1, 1, 1);
     slog_sync();
 
     entity_system_init(1024);
@@ -75,6 +75,8 @@ int main(int argc,char *argv[])
     invbooklet = gf3d_sprite_load("images/invbooklet.png", 300, 50, 1);
     invbox = gf3d_sprite_load("images/invbox.png", 300, 50, 1);
     invteleporter = gf3d_sprite_load("images/invteleporter.png", 300, 50, 1);
+
+    Sprite* menu = gf3d_sprite_load("images/mainmenu_screen.png", 1200, 700, 1);
 
     Sprite* noteText = gf3d_sprite_load("images/note.png", 2500, 500, 1);
 
@@ -154,6 +156,8 @@ int main(int argc,char *argv[])
                 entity_draw_all();
             //2D draws
                 gf3d_sprite_draw(mouse,vector2d(mousex,mousey),vector2d(2,2),(Uint32)mouseFrame);
+
+                gf3d_sprite_draw(menu, vector2d(0,700), vector2d(2, 2), (Uint32)mouseFrame);
 
                 gf3d_sprite_draw(inv, vector2d(0,0), vector2d(2, 2), (Uint32)mouseFrame);
                 if (player->itemOwned[0])gf3d_sprite_draw(invkey, vector2d(0, 25), vector2d(2, 2), (Uint32)mouseFrame);
