@@ -26,7 +26,7 @@ Entity *player_new(Vector3D position)
     ent->update = player_update;
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
-    
+    ent->onMenu = 1;
     
     for (int i = 0; i < 10; i++)
         ent->itemOwned[i] = 0;
@@ -151,7 +151,17 @@ void player_think(Entity *self)
     vector3d_set_angle_by_radians(&right, radians);
     vector3d_set_magnitude(&up,magnitude);
 
-    if (keys[SDL_SCANCODE_W])
+    if (keys[SDL_SCANCODE_RETURN])
+    {
+        self->onMenu = 0;
+    }
+
+    if (keys[SDL_SCANCODE_ESCAPE])
+    {
+        self->onMenu = 1;
+    }
+
+    if (keys[SDL_SCANCODE_W] && self->onMenu == 0)
     {  
         if (self->interacting == 0)
         {
@@ -159,7 +169,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_S])
+    if (keys[SDL_SCANCODE_S] && self->onMenu == 0)
     {
         if (self->interacting == 0)
         {
@@ -167,7 +177,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_D])
+    if (keys[SDL_SCANCODE_D] && self->onMenu == 0)
     {
         if (self->interacting == 0)
         {
@@ -175,7 +185,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_A])    
+    if (keys[SDL_SCANCODE_A] && self->onMenu == 0)
     {
         if (self->interacting == 0)
         {
@@ -185,7 +195,7 @@ void player_think(Entity *self)
     }
 
     //jump
-    if (keys[SDL_SCANCODE_SPACE])
+    if (keys[SDL_SCANCODE_SPACE] && self->onMenu == 0)
     {
         if (inAir == 0)
         {
@@ -198,7 +208,7 @@ void player_think(Entity *self)
     }
     
 
-    if (keys[SDL_SCANCODE_Z])
+    if (keys[SDL_SCANCODE_Z] && self->onMenu == 0)
     {
         if (self->itemOwned[7]) 
         {
@@ -209,21 +219,21 @@ void player_think(Entity *self)
         }
     }
     
-    if (keys[SDL_SCANCODE_UP])self->rotation.x -= 0.005;
-    if (keys[SDL_SCANCODE_DOWN])self->rotation.x += 0.005;
+    if (keys[SDL_SCANCODE_UP] && self->onMenu == 0)self->rotation.x -= 0.005;
+    if (keys[SDL_SCANCODE_DOWN] && self->onMenu == 0)self->rotation.x += 0.005;
 
-    if (keys[SDL_SCANCODE_RIGHT])
+    if (keys[SDL_SCANCODE_RIGHT] && self->onMenu == 0)
     {
         self->rotation.z -= 0.005;
         //radians -= 0.0050;
     }
-    if (keys[SDL_SCANCODE_LEFT])
+    if (keys[SDL_SCANCODE_LEFT] && self->onMenu == 0)
     {
         self->rotation.z += 0.005;
         //radians += 0.0050;
     }
 
-    if (keys[SDL_SCANCODE_C])
+    if (keys[SDL_SCANCODE_C] && self->onMenu == 0)
     {
         if (self->itemOwned[9])
         {
@@ -233,13 +243,13 @@ void player_think(Entity *self)
         
     }
 
-    if (keys[SDL_SCANCODE_V])
+    if (keys[SDL_SCANCODE_V] && self->onMenu == 0)
     {
         if (self->itemOwned[6])
             slowFall = 1;
     }
 
-    if (keys[SDL_SCANCODE_E])
+    if (keys[SDL_SCANCODE_E] && self->onMenu == 0)
     {
         if (self->interacting == 0)
         {
@@ -257,12 +267,12 @@ void player_think(Entity *self)
         }        
     }
 
-    if (keys[SDL_SCANCODE_R])
+    if (keys[SDL_SCANCODE_R] && self->onMenu == 0)
     {
         self->interacting = 0;
     }
 
-    if (keys[SDL_SCANCODE_Q])
+    if (keys[SDL_SCANCODE_Q] && self->onMenu == 0)
     {
         self->readingNote = 1;
     }
