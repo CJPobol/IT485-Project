@@ -133,6 +133,13 @@ int main(int argc,char *argv[])
     gf3d_camera_set_scale(vector3d(1,1,1));
     Entity* player = player_new(vector3d(0,0,60));
     
+    Entity* editorList[5];
+    editorList[0] = NPC1;
+    editorList[1] = NPC2;
+    editorList[2] = NPC3;
+    editorList[3] = NPC4;
+    editorList[4] = NPC5;
+
     // main game loop
     slog("gf3d main loop begin");
     while(!done)
@@ -216,7 +223,8 @@ int main(int argc,char *argv[])
         if (vector3d_distance_between_less_than(player->position, spiderwebs->position, interactDist))
             player->itemOwned[3] = 1;
         
-
+        if (player->editing && player->selectedToEdit == 1)
+            moveEntity(1, editorList);
 
         if (gfc_input_command_down("exit"))done = 1; // exit condition
     }    

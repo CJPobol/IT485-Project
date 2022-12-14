@@ -43,7 +43,13 @@ void wallClimb(Entity* self)
 
 interacting = 0;
 boxGiven = 0;
+Entity editingEntity;
 
+void moveEntity(int ent, Entity* list)
+{
+    editingEntity = list[ent-1];
+    list[ent - 1].position = editingEntity.position;
+}
 
 void interact1(Entity* self)
 {
@@ -151,17 +157,40 @@ void player_think(Entity *self)
     vector3d_set_angle_by_radians(&right, radians);
     vector3d_set_magnitude(&up,magnitude);
 
+    if (keys[SDL_SCANCODE_1])
+        self->selectedToEdit = 1;
+    if (keys[SDL_SCANCODE_2])
+        self->selectedToEdit = 2;
+    if (keys[SDL_SCANCODE_3])
+        self->selectedToEdit = 3;
+    if (keys[SDL_SCANCODE_4])
+        self->selectedToEdit = 4;
+    if (keys[SDL_SCANCODE_5])
+        self->selectedToEdit = 5;
+
     if (keys[SDL_SCANCODE_RETURN])
     {
         self->onMenu = 0;
+        self->position = vector3d(0, 0, 60);
+        self->rotation.x = -GFC_PI;
+        self->editing = 0;
     }
 
     if (keys[SDL_SCANCODE_ESCAPE])
     {
         self->onMenu = 1;
+        self->editing = 0;
     }
 
-    if (keys[SDL_SCANCODE_W] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_L])
+    {
+        self->onMenu = 0;
+        self->position = vector3d(0, 0, 3000);
+        self->rotation.x = -GFC_HALF_PI;
+        self->editing = 1;
+    }
+
+    if (keys[SDL_SCANCODE_W] && self->onMenu == 0 && self->editing == 0)
     {  
         if (self->interacting == 0)
         {
@@ -169,7 +198,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_S] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_S] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->interacting == 0)
         {
@@ -177,7 +206,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_D] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_D] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->interacting == 0)
         {
@@ -185,7 +214,7 @@ void player_think(Entity *self)
             wallClimb(self);
         }
     }
-    if (keys[SDL_SCANCODE_A] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_A] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->interacting == 0)
         {
@@ -195,7 +224,7 @@ void player_think(Entity *self)
     }
 
     //jump
-    if (keys[SDL_SCANCODE_SPACE] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_SPACE] && self->onMenu == 0 && self->editing == 0)
     {
         if (inAir == 0)
         {
@@ -208,7 +237,7 @@ void player_think(Entity *self)
     }
     
 
-    if (keys[SDL_SCANCODE_Z] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_Z] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->itemOwned[7]) 
         {
@@ -219,21 +248,37 @@ void player_think(Entity *self)
         }
     }
     
-    if (keys[SDL_SCANCODE_UP] && self->onMenu == 0)self->rotation.x -= 0.005;
-    if (keys[SDL_SCANCODE_DOWN] && self->onMenu == 0)self->rotation.x += 0.005;
+    if (keys[SDL_SCANCODE_UP] && self->onMenu == 0)
+    {
+        if (self->editing == 0)
+            self->rotation.x -= 0.005;
+        else
+        {
+            editingEntity.position.x += 1;
+        }
+    }
+    if (keys[SDL_SCANCODE_DOWN] && self->onMenu == 0)
+    {
+        if (self->editing == 0)
+            self->rotation.x += 0.005;
+        else
+        {
+            editingEntity.position.x -= 1;
+        }
+    }
 
-    if (keys[SDL_SCANCODE_RIGHT] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_RIGHT] && self->onMenu == 0 && self->editing == 0)
     {
         self->rotation.z -= 0.005;
         //radians -= 0.0050;
     }
-    if (keys[SDL_SCANCODE_LEFT] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_LEFT] && self->onMenu == 0 && self->editing == 0)
     {
         self->rotation.z += 0.005;
         //radians += 0.0050;
     }
 
-    if (keys[SDL_SCANCODE_C] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_C] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->itemOwned[9])
         {
@@ -243,13 +288,13 @@ void player_think(Entity *self)
         
     }
 
-    if (keys[SDL_SCANCODE_V] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_V] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->itemOwned[6])
             slowFall = 1;
     }
 
-    if (keys[SDL_SCANCODE_E] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_E] && self->onMenu == 0 && self->editing == 0)
     {
         if (self->interacting == 0)
         {
@@ -267,12 +312,12 @@ void player_think(Entity *self)
         }        
     }
 
-    if (keys[SDL_SCANCODE_R] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_R] && self->onMenu == 0 && self->editing == 0)
     {
         self->interacting = 0;
     }
 
-    if (keys[SDL_SCANCODE_Q] && self->onMenu == 0)
+    if (keys[SDL_SCANCODE_Q] && self->onMenu == 0 && self->editing == 0)
     {
         self->readingNote = 1;
     }
@@ -283,10 +328,13 @@ void player_update(Entity *self)
     if (!self)return;
 
     //creates "gravity"
-    if (slowFall == 0)
-        self->position.z -= 0.2;
-    else
-        self->position.z -= 0.02;
+    if (self->editing == 0) {
+        if (slowFall == 0)
+            self->position.z -= 0.2;
+        else
+            self->position.z -= 0.02;
+    }
+        
 
     //creates "floor" to game world
     if (crouching == 1)

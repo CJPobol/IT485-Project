@@ -44,6 +44,8 @@ typedef struct Entity_S
     int readingNote;
 
     int onMenu;
+    int editing;
+    int selectedToEdit;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     
