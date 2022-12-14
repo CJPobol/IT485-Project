@@ -187,6 +187,7 @@ void player_think(Entity *self)
         self->onMenu = 0;
         self->position = vector3d(0, 0, 3000);
         self->rotation.x = -GFC_HALF_PI;
+        self->rotation.z = 0;
         self->editing = 1;
     }
 
