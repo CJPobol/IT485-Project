@@ -39,6 +39,7 @@ typedef struct Entity_S
     int itemOwned[10];
     int nearNPC;
     int interacting;
+    int shopping;
     int boxGiven;
     int keyGiven;
     int readingNote;
@@ -46,6 +47,8 @@ typedef struct Entity_S
     int onMenu;
     int editing;
     int selectedToEdit;
+
+    int balance;
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     

@@ -89,6 +89,8 @@ int main(int argc,char *argv[])
         dialogue[5] = gf3d_sprite_load("images/dialogue/5.png", 2500, 500, 1);
         dialogue[6] = gf3d_sprite_load("images/dialogue/6.png", 2500, 500, 1);
 
+    Sprite* shop = gf3d_sprite_load("images/shop.png", 1000, 1400, 1);
+
     w = world_load("config/testworld.json");
 
     Entity* wall1 = item_new(vector3d(0, 1000, 0));
@@ -184,8 +186,8 @@ int main(int argc,char *argv[])
                         gf3d_sprite_draw(dialogue[1], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
                     if (player->interacting == 1 && player->nearNPC == 2 && !player->itemOwned[5])
                         gf3d_sprite_draw(dialogue[2], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
-                    if (player->interacting == 1 && player->nearNPC == 3 && player->itemOwned[5])
-                        gf3d_sprite_draw(dialogue[3], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+                    //if (player->interacting == 1 && player->nearNPC == 3 && player->itemOwned[5])
+                        //gf3d_sprite_draw(dialogue[3], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
                     if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[8])
                         gf3d_sprite_draw(dialogue[4], vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
                     if (player->interacting == 1 && player->nearNPC == 1 && player->itemOwned[0])
@@ -195,6 +197,9 @@ int main(int argc,char *argv[])
 
                     if (player->readingNote && !player->interacting && player->itemOwned[1])
                         gf3d_sprite_draw(noteText, vector2d(0, 500), vector2d(2, 2), (Uint32)mouseFrame);
+
+                    if (player->shopping)
+                        gf3d_sprite_draw(shop, vector2d(0, 0), vector2d(2, 2), (Uint32)mouseFrame);
                 }
 
                 if (player->onMenu == 1) gf3d_sprite_draw(menu, vector2d(0, 0), vector2d(4, 4), (Uint32)mouseFrame);

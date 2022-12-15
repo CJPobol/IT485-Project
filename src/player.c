@@ -27,6 +27,7 @@ Entity *player_new(Vector3D position)
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
     ent->onMenu = 1;
+    ent->balance = 0;
     
     for (int i = 0; i < 10; i++)
         ent->itemOwned[i] = 0;
@@ -78,14 +79,16 @@ void interact2(Entity* self)
     gfc_sound_play(item_pickup, 0, 1, -1, -1);
 }
 
-void interact3(Entity* self)
+void interact3(Entity* self) //this will be the market man
 {
     self->interacting = 1;
+    self->shopping = 1;
     Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->itemOwned[4])
     {
         self->itemOwned[4] = 0;
         self->itemOwned[5] = 1;
+        
         gfc_sound_play(item_pickup, 0, 1, -1, -1);
     }
     
@@ -115,7 +118,9 @@ void interact4(Entity* self, Uint8* keys)
                 self->itemOwned[0] = 0;
                 self->keyGiven = 1;
                 //here take this cool teleporter I found
-                self->itemOwned[9] = 1;
+                //self->itemOwned[9] = 1;
+                self->balance += 30;
+                slog("Balance: %i", self->balance);
                 gfc_sound_play(item_pickup, 0, 1, -1, -1);
             }
         }
@@ -127,7 +132,9 @@ void interact5(Entity* self)
 {
     self->interacting = 1;
     Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
-    self->itemOwned[7] = 1;
+    //self->itemOwned[7] = 1;
+    self->balance += 10;
+    slog("Balance: %i", self->balance);
     gfc_sound_play(item_pickup, 0, 1, -1, -1);
 }
 
@@ -316,6 +323,7 @@ void player_think(Entity *self)
     if (keys[SDL_SCANCODE_R] && self->onMenu == 0 && self->editing == 0)
     {
         self->interacting = 0;
+        self->shopping = 0;
     }
 
     if (keys[SDL_SCANCODE_Q] && self->onMenu == 0 && self->editing == 0)
