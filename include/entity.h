@@ -52,6 +52,7 @@ typedef struct Entity_S
     int selectedToEdit;
 
     int balance;
+    int collectedCoin[10];
 
     struct Entity_S *target;    /**<entity to target for weapons / ai*/
     

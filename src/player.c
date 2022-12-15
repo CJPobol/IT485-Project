@@ -28,11 +28,15 @@ Entity *player_new(Vector3D position)
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
     ent->onMenu = 1;
-    ent->balance = 100;
+    ent->balance = 0;
     ent->itempickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     
     for (int i = 0; i < 10; i++)
+    {
         ent->itemOwned[i] = 0;
+        ent->collectedCoin[i] = 0;
+    }
+        
 
     return ent;
 }
@@ -75,8 +79,7 @@ void interact1(Entity* self)
 void interact2(Entity* self)
 {
     self->interacting = 1;
-    self->itemOwned[4] = 1;
-    gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+    self->balance += 5;
 }
 
 void interact3(Entity* self) //this will be the market man
@@ -377,7 +380,7 @@ void player_think(Entity *self)
             slowFall = 1;
     }
 
-    if (keys[SDL_SCANCODE_E] && self->onMenu == 0 && self->editing == 0)
+    if (gfc_input_command_pressed("interact") && self->onMenu == 0 && self->editing == 0)
     {
         if (self->interacting == 0)
         {

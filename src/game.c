@@ -126,10 +126,17 @@ int main(int argc,char *argv[])
     NPC5->rotation.z = M_PI * 1.5;
     NPC5->scale = vector3d(10, 10, 10);
 
-    Entity* shoes = item_new(vector3d(50, -75, -10));
-    Entity* note = item_new(vector3d(-50, 75, -10));
-    Entity* umbrella = item_new(vector3d(-50, -75, -10));
-    Entity* spiderwebs = item_new(vector3d(50, 75, -10));
+    Entity* coins[10];
+    coins[0] = item_new(vector3d(100, 500, 50));
+    coins[1] = item_new(vector3d(500, -750, 100));
+    coins[2] = item_new(vector3d(-200, 900, 10));
+    coins[3] = item_new(vector3d(-700, -800, 20));
+    coins[4] = item_new(vector3d(250, 300, 150));
+    coins[5] = item_new(vector3d(-100, -500, 50));
+    coins[6] = item_new(vector3d(-500, 750, 100));
+    coins[7] = item_new(vector3d(200, -900, 10));
+    coins[8] = item_new(vector3d(700, 800, 20));
+    coins[9] = item_new(vector3d(-250, -300, 150));
 
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
@@ -219,14 +226,66 @@ int main(int argc,char *argv[])
         else
             player->nearNPC = 0;
 
-        if (vector3d_distance_between_less_than(player->position, shoes->position, interactDist))
-            player->itemOwned[2] = 1;
-        if (vector3d_distance_between_less_than(player->position, note->position, interactDist))
-            player->itemOwned[1] = 1;
-        if (vector3d_distance_between_less_than(player->position, umbrella->position, interactDist))
-            player->itemOwned[6] = 1;
-        if (vector3d_distance_between_less_than(player->position, spiderwebs->position, interactDist))
-            player->itemOwned[3] = 1;
+        if (vector3d_distance_between_less_than(player->position, coins[0]->position, interactDist) && !player->collectedCoin[0])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[0] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[1]->position, interactDist) && !player->collectedCoin[1])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[1] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[2]->position, interactDist) && !player->collectedCoin[2])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[2] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[3]->position, interactDist) && !player->collectedCoin[3])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[3] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[4]->position, interactDist) && !player->collectedCoin[4])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[4] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[5]->position, interactDist) && !player->collectedCoin[5])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[5] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[6]->position, interactDist) && !player->collectedCoin[6])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[6] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[7]->position, interactDist) && !player->collectedCoin[7])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[7] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[8]->position, interactDist) && !player->collectedCoin[8])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[8] = 1;
+        }
+        if (vector3d_distance_between_less_than(player->position, coins[9]->position, interactDist) && !player->collectedCoin[9])
+        {
+            player->balance += 10;
+            gfc_sound_play(player->itempickup, 0, 1, -1, -1);
+            player->collectedCoin[9] = 1;
+        }
         
         if (player->editing && player->selectedToEdit == 1)
             moveEntity(1, editorList);
