@@ -4,6 +4,7 @@
 #include "gfc_types.h"
 
 #include "gf3d_model.h"
+#include "gfc_audio.h"
 
 typedef enum state
 {
@@ -35,6 +36,8 @@ typedef struct Entity_S
     
     Uint32      health;     /**<entity dies when it reaches zero*/
     // WHATEVER ELSE WE MIGHT NEED FOR ENTITIES
+
+    Sound* itempickup;
 
     int itemOwned[10];
     int nearNPC;

@@ -5,6 +5,7 @@
 #include "player.h"
 
 #include "gfc_audio.h"
+#include "gfc_input.h"
 
 
 void player_think(Entity *self);
@@ -27,7 +28,8 @@ Entity *player_new(Vector3D position)
     vector3d_copy(ent->position,position);
     ent->rotation.x = -M_PI;
     ent->onMenu = 1;
-    ent->balance = 0;
+    ent->balance = 100;
+    ent->itempickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     
     for (int i = 0; i < 10; i++)
         ent->itemOwned[i] = 0;
@@ -55,17 +57,16 @@ void moveEntity(int ent, Entity* list)
 void interact1(Entity* self)
 {
     self->interacting = 1;
-    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->boxGiven == 1)
     {
         self->itemOwned[0] = 1;
-        gfc_sound_play(item_pickup, 0, 1, -1, -1);
+        gfc_sound_play(self->itempickup, 0, 1, -1, -1);
     }
         
     else
     {
         self->itemOwned[8] = 1;
-        gfc_sound_play(item_pickup, 0, 1, -1, -1);
+        gfc_sound_play(self->itempickup, 0, 1, -1, -1);
     }
         
     
@@ -74,30 +75,19 @@ void interact1(Entity* self)
 void interact2(Entity* self)
 {
     self->interacting = 1;
-    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     self->itemOwned[4] = 1;
-    gfc_sound_play(item_pickup, 0, 1, -1, -1);
+    gfc_sound_play(self->itempickup, 0, 1, -1, -1);
 }
 
 void interact3(Entity* self) //this will be the market man
 {
     self->interacting = 1;
-    self->shopping = 1;
-    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
-    if (self->itemOwned[4])
-    {
-        self->itemOwned[4] = 0;
-        self->itemOwned[5] = 1;
-        
-        gfc_sound_play(item_pickup, 0, 1, -1, -1);
-    }
-    
+    self->shopping = 1;   
 }
 
 void interact4(Entity* self, Uint8* keys)
 {
     self->interacting = 1;
-    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     if (self->itemOwned[8])
     {
         //give mystery box? (Y/N)
@@ -121,7 +111,7 @@ void interact4(Entity* self, Uint8* keys)
                 //self->itemOwned[9] = 1;
                 self->balance += 30;
                 slog("Balance: %i", self->balance);
-                gfc_sound_play(item_pickup, 0, 1, -1, -1);
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
             }
         }
     }
@@ -131,11 +121,10 @@ void interact4(Entity* self, Uint8* keys)
 void interact5(Entity* self)
 {
     self->interacting = 1;
-    Sound* item_pickup = gfc_sound_load("audio/item_pickup.wav", 1, 1);
     //self->itemOwned[7] = 1;
     self->balance += 10;
     slog("Balance: %i", self->balance);
-    gfc_sound_play(item_pickup, 0, 1, -1, -1);
+    gfc_sound_play(self->itempickup, 0, 1, -1, -1);
 }
 
 int crouching = 0;
@@ -164,16 +153,102 @@ void player_think(Entity *self)
     vector3d_set_angle_by_radians(&right, radians);
     vector3d_set_magnitude(&up,magnitude);
 
-    if (keys[SDL_SCANCODE_1])
-        self->selectedToEdit = 1;
-    if (keys[SDL_SCANCODE_2])
-        self->selectedToEdit = 2;
-    if (keys[SDL_SCANCODE_3])
-        self->selectedToEdit = 3;
-    if (keys[SDL_SCANCODE_4])
-        self->selectedToEdit = 4;
-    if (keys[SDL_SCANCODE_5])
-        self->selectedToEdit = 5;
+    if (gfc_input_command_pressed("1"))
+    {
+        if (self->editing)
+            self->selectedToEdit = 1;
+        else
+        {
+            if (self->balance >= 5)
+            {
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+                self->itemOwned[1] = 1;
+                self->balance -= 5;
+                slog("Balance: %i", self->balance);
+            }
+        }
+    }
+    if (gfc_input_command_pressed("2"))
+    {
+        if (self->editing)
+            self->selectedToEdit = 2;
+        else
+        {
+            if (self->balance >= 10)
+            {
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+                self->itemOwned[2] = 1;
+                self->balance -= 10;
+                slog("Balance: %i", self->balance);
+            }
+        }
+    }
+    if (gfc_input_command_pressed("3"))
+    {
+        if (self->editing)
+            self->selectedToEdit = 3;
+        else
+        {
+            if (self->balance >= 5)
+            {
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+                self->itemOwned[5] = 1;
+                self->balance -= 5;
+                slog("Balance: %i", self->balance);
+            }
+        }
+    }
+        
+    if (gfc_input_command_pressed("4"))
+    {
+        if (self->editing)
+            self->selectedToEdit = 4;
+        else
+        {
+            if (self->balance >= 10)
+            {
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+                self->itemOwned[6] = 1;
+                self->balance -= 10;
+                slog("Balance: %i", self->balance);
+            }
+        }
+    }
+    if (gfc_input_command_pressed("5"))
+    {
+        if (self->editing)
+            self->selectedToEdit = 5;
+        else
+        {
+            if (self->balance >= 10)
+            {
+                gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+                self->itemOwned[3] = 1;
+                self->balance -= 10;
+                slog("Balance: %i", self->balance);
+            }
+        }
+    }
+    if (gfc_input_command_pressed("6"))
+    {
+        if (!self->editing && self->balance >= 1)
+        {
+            gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+            self->itemOwned[4] = 1;
+            self->balance -= 1;
+            slog("Balance: %i", self->balance);
+        }
+    }
+    if (gfc_input_command_pressed("7"))
+    {
+        if (!self->editing && self->balance >= 20)
+        {
+            gfc_sound_play(self->itempickup, 0, 1, -1, -1);
+            self->itemOwned[9] = 1;
+            self->balance -= 20;
+            slog("Balance: %i", self->balance);
+        }
+    }
 
     if (keys[SDL_SCANCODE_RETURN])
     {
