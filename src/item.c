@@ -21,7 +21,7 @@ Entity* item_new(Vector3D position)
     ent->update = item_update;
     vector3d_copy(ent->position, position);
 
-    ent->scale = vector3d(2, 2, 2);
+    ent->scale = vector3d(5, 5, 5);
     return ent;
 }
 

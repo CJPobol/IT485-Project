@@ -50,12 +50,11 @@ void wallClimb(Entity* self)
 
 interacting = 0;
 boxGiven = 0;
-Entity editingEntity;
+Entity* editingEntity;
 
-void moveEntity(int ent, Entity* list)
+void moveEntity(Entity* ent)
 {
-    editingEntity = list[ent-1];
-    list[ent - 1].position = editingEntity.position;
+    editingEntity = ent;
 }
 
 void interact1(Entity* self)
@@ -340,7 +339,7 @@ void player_think(Entity *self)
             self->rotation.x -= 0.005;
         else
         {
-            editingEntity.position.x += 1;
+            editingEntity->position.y += 1;
         }
     }
     if (keys[SDL_SCANCODE_DOWN] && self->onMenu == 0)
@@ -349,18 +348,23 @@ void player_think(Entity *self)
             self->rotation.x += 0.005;
         else
         {
-            editingEntity.position.x -= 1;
+            editingEntity->position.y -= 1;
         }
     }
 
-    if (keys[SDL_SCANCODE_RIGHT] && self->onMenu == 0 && self->editing == 0)
+    if (keys[SDL_SCANCODE_RIGHT] && self->onMenu == 0)
     {
-        self->rotation.z -= 0.005;
-        //radians -= 0.0050;
+        if (self->editing)
+            editingEntity->position.x += 1;
+        else
+            self->rotation.z -= 0.005;
     }
-    if (keys[SDL_SCANCODE_LEFT] && self->onMenu == 0 && self->editing == 0)
+    if (keys[SDL_SCANCODE_LEFT] && self->onMenu == 0)
     {
-        self->rotation.z += 0.005;
+        if (self->editing)
+            editingEntity->position.x -= 1;
+        else
+            self->rotation.z += 0.005;
         //radians += 0.0050;
     }
 

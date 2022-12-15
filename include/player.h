@@ -10,5 +10,5 @@
  */
 Entity *player_new(Vector3D position);
 
-void moveEntity(int ent, Entity* list);
+void moveEntity(Entity* ent);
 #endif

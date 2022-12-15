@@ -141,13 +141,6 @@ int main(int argc,char *argv[])
     slog_sync();
     gf3d_camera_set_scale(vector3d(1,1,1));
     Entity* player = player_new(vector3d(0,0,60));
-    
-    Entity* editorList[5];
-    editorList[0] = NPC1;
-    editorList[1] = NPC2;
-    editorList[2] = NPC3;
-    editorList[3] = NPC4;
-    editorList[4] = NPC5;
 
     // main game loop
     slog("gf3d main loop begin");
@@ -288,7 +281,15 @@ int main(int argc,char *argv[])
         }
         
         if (player->editing && player->selectedToEdit == 1)
-            moveEntity(1, editorList);
+            moveEntity(NPC1);
+        if (player->editing && player->selectedToEdit == 2)
+            moveEntity(NPC2);
+        if (player->editing && player->selectedToEdit == 3)
+            moveEntity(NPC3);
+        if (player->editing && player->selectedToEdit == 4)
+            moveEntity(NPC4);
+        if (player->editing && player->selectedToEdit == 5)
+            moveEntity(NPC5);
 
         if (gfc_input_command_down("exit"))done = 1; // exit condition
     }    
