@@ -1,23 +1,13 @@
-# gf3d
-a collection of utlitity functions designed to facilitate creating 3D games with ~~OpenGL~~ Vulkan and SDL2
-This project is specifically intended to function as an educational tool for my students taking 3D Game Programming.
+# Description
+This project serves as my first attempt creating a 3D game from scratch, without the use of an existing game engine such as Unity or Unreal Engine. Starting from minimal seed code provided by Professor DJ Kehoe at NJIT, this project was developed in C from the ground up.
+Note: All models used in this game are not my own, they were provided by the professor of this course as 3D modelling was not the intention of this course, or this project.
 
-Currently the project is in a WIP state.
-It represents my first stab at getting vulkan rendering pipeline setup.
-It is not stable and I intend to do a complete rewrite of the vulkan system as soon as I can find some time
+# Parkour World
+This game involves interacting with NPCs and collecting coins to collect all the available items in the game, of which there are 10. These items provide the player with new and powerful movement abilities to help them traverse the world. This early version implements the movement abilities and methods of obtaining them, though the map itself is not at a polished and finished state at the moment.
+
+# In-Game Images
+![image](https://github.com/CJPobol/IT485-Project/assets/89927148/13da115b-f061-4f34-94c3-35eda3baef95)
+![image](https://github.com/CJPobol/IT485-Project/assets/89927148/82eb95f0-5cc8-4445-9d6f-2f27c38f7238)
+![image](https://github.com/CJPobol/IT485-Project/assets/89927148/70c6603c-3dd0-45e5-9377-416e34aeeae1)
 
 
-# Build Process
-
-Before you can build the example code we are providing for you, you will need to obtain the libraries required
-by the source code. Some of these libraries are easy to obtain and others are provided by the vendors of hardware
-that is installed in your computer. After the libraries are obtained the following sequence of steps should be
-performable from the following steps from the root of the cloned git repository within a terminal. 
-
-1. Obtain the code: `git clone <repo name>`
-2. Checkout seed branch: `git checkout <branch name>`
-3. Make sure ou fetch submodules: `git submodule update --init --recursive`
-4. Build libraries: `pushd gfc/src; make; popd`
-5. Build game: `pushd src; make; popd`
-
-You should now have a `gf3d` binary within the root of your git repository. Executing this will start your game.
